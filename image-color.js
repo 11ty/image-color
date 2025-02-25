@@ -42,11 +42,13 @@ async function getColors(source) {
 						let alternate;
 						let mode = "unknown";
 						if(contrastDark > 4.5) {
-							alternate = "#000";
-							mode = "dark";
+							// contrasts well with #000
+							alternate = "#000"; // text is black
+							mode = "light";
 						} else if(contrastLight > 4.5) {
-							alternate = "#fff";
-							mode = "light"
+							// contrasts well with #fff
+							alternate = "#fff"; // text is white
+							mode = "dark";
 						}
 
 						return {

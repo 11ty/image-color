@@ -4,7 +4,7 @@ import Cache from "@11ty/eleventy-fetch";
 import Image from "@11ty/eleventy-img";
 import Color from "colorjs.io";
 
-function memoizeJsonToDisk(fn, options = {}) {
+export function memoizeJsonToDisk(fn, options = {}) {
 	return function(arg) {
 		return Cache(async () => fn(arg), Object.assign({
 			type: "json",
@@ -22,7 +22,7 @@ export async function getImage(source) {
 	});
 }
 
-async function getColors(source) {
+export async function getColors(source) {
 	return new Promise(async (resolve, reject) => {
 		let stats = await getImage(source);
 
@@ -81,7 +81,7 @@ export function getImageColors(source) {
 	return fn(source);
 }
 
-// no disk cache, but keep in-memory memoize
+// no disk cache, but keep in-memory memoize (will read from disk if available!)
 export function getImageColorsRaw(source) {
 	return rawFn(source);
 }

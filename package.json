@@ -1,6 +1,6 @@
 {
   "name": "@11ty/image-color",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Small utility to efficiently fetch the colors from an image.",
   "type": "module",
   "main": "image-color.js",

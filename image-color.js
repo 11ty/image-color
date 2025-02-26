@@ -1,17 +1,25 @@
+import memoize from "memoize";
+import Color from "colorjs.io";
 import getPixels from "@zachleat/get-pixels";
 import { extractColors } from "extract-colors";
 import Cache from "@11ty/eleventy-fetch";
 import Image from "@11ty/eleventy-img";
-import Color from "colorjs.io";
 
 export function memoizeJsonToDisk(fn, options = {}) {
-	return function(arg) {
+	return memoize(function(arg) {
 		return Cache(async () => fn(arg), Object.assign({
 			type: "json",
 			duration: "1d",
 			requestId: `11ty/image-color/${arg}`,
-		}, options));
-	};
+		}, options)).then(colors => {
+			// Color instances are not JSON-friendly
+			for(let c of colors) {
+				c.colorjs = new Color(c.original);
+			}
+
+			return colors;
+		});
+	});
 }
 
 export async function getImage(source) {

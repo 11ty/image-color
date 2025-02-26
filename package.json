@@ -29,8 +29,10 @@
     "@11ty/eleventy-img": "^6.0.1",
     "@zachleat/get-pixels": "^1.0.0",
     "colorjs.io": "^0.5.2",
+    "debug": "^4.4.0",
     "extract-colors": "^4.1.1",
-    "memoize": "^10.1.0"
+    "memoize": "^10.1.0",
+    "p-queue": "^8.1.0"
   },
   "devDependencies": {
     "ava": "^6.2.0"

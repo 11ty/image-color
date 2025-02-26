@@ -1,13 +1,27 @@
 import memoize from "memoize";
+import PQueue from 'p-queue';
 import Color from "colorjs.io";
+import debugUtil from "debug";
 import getPixels from "@zachleat/get-pixels";
 import { extractColors } from "extract-colors";
 import Cache from "@11ty/eleventy-fetch";
 import Image from "@11ty/eleventy-img";
 
+const debug = debugUtil("Eleventy:ImageColor");
+const queue = new PQueue({ concurrency: 10 });
+
+queue.on("active", () => {
+	debug("Size: %o  Pending: %o", queue.size, queue.pending);
+});
+
 export function memoizeJsonToDisk(fn, options = {}) {
 	return memoize(function(arg) {
-		return Cache(async () => fn(arg), Object.assign({
+		debug("Fetching %o", arg);
+
+		// Add to concurrency queue
+		return queue.add(() => Cache(async () => {
+			return fn(arg);
+		}, Object.assign({
 			type: "json",
 			duration: "1d",
 			requestId: `11ty/image-color/${arg}`,
@@ -18,7 +32,7 @@ export function memoizeJsonToDisk(fn, options = {}) {
 			}
 
 			return colors;
-		});
+		}));
 	});
 }
 
@@ -34,13 +48,17 @@ export async function getColors(source) {
 	return new Promise(async (resolve, reject) => {
 		let stats = await getImage(source);
 
+		debug("Image fetched: %o", source);
 		getPixels(stats.png[0].buffer, "image/png", (err, pixels) => {
 			if(err) {
+				debug("Error: %o", err);
 				reject(err);
 			} else {
+				debug("`getPixels` success: %o", source);
 				let data = [...pixels.data];
 				let [width, height] = pixels.shape;
 				extractColors({ data, width, height }).then(colors => {
+					debug("`extractColors` success: %o", source);
 					resolve(colors.map(colorData => {
 						let c = new Color(colorData.hex);
 

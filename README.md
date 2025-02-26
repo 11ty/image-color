@@ -4,11 +4,13 @@ A small utility to efficiently extract color information from images (with a mem
 
 ## Installation
 
-Install from npm:
+Install from [npm: `@11ty/image-color`](https://www.npmjs.com/package/@11ty/image-color):
 
 ```sh
 npm install @11ty/image-color
 ```
+
+Based on the great work of [`get-pixels`](https://www.npmjs.com/package/get-pixels/) (via the [`@zachleat/get-pixels` fork](https://github.com/zachleat/get-pixels)) and [`extract-colors`](https://www.npmjs.com/package/extract-colors).
 
 ## Usage
 
@@ -29,6 +31,11 @@ colors.map(c => c.colorjs.toString({format: "hex"}));
 
 // Filter colors based on Lightness value
 colors.filter(c => c.colorjs.oklch.l > .1);
+
+// Sort Brightest to Darkest
+colors.sort((a, b) => {
+	return b.oklch.l - a.oklch.l;
+})
 ```
 
 Learn more about [color.js Color objects](https://colorjs.io/docs/the-color-object).

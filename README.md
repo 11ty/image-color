@@ -32,7 +32,7 @@ colors.map(c => c.colorjs.toString({format: "hex"}));
 // Filter colors based on Lightness value
 colors.filter(c => c.colorjs.oklch.l > .1);
 
-// Sort Brightest to Darkest
+// Sort Lightest colors first
 colors.sort((a, b) => {
 	return b.colorjs.oklch.l - a.colorjs.oklch.l;
 })

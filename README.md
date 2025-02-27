@@ -23,7 +23,7 @@ let colors = await getImageColors("./sample.jpg");
 // Works with local or remote images
 // let colors = await getImageColors("https://example.com/sample.jpg");
 
-// Get oklch values
+// Get oklch string values
 colors.map(c => c.background);
 
 // Get hex values
@@ -34,7 +34,7 @@ colors.filter(c => c.colorjs.oklch.l > .1);
 
 // Sort Brightest to Darkest
 colors.sort((a, b) => {
-	return b.oklch.l - a.oklch.l;
+	return b.colorjs.oklch.l - a.colorjs.oklch.l;
 })
 ```
 

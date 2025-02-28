@@ -15,28 +15,6 @@ queue.on("active", () => {
 	debug("Size: %o  Pending: %o", queue.size, queue.pending);
 });
 
-export function memoizeJsonToDisk(fn, options = {}) {
-	return memoize(function(arg) {
-		debug("Fetching %o", arg);
-
-		// Add to concurrency queue
-		return queue.add(() => Cache(async () => {
-			return fn(arg);
-		}, Object.assign({
-			type: "json",
-			duration: "1d",
-			requestId: `11ty/image-color/${arg}`,
-		}, options)).then(colors => {
-			// Color instances are not JSON-friendly
-			for(let c of colors) {
-				c.colorjs = new Color(c.original);
-			}
-
-			return colors;
-		}));
-	});
-}
-
 export async function getImage(source) {
 	return Image(source, {
 		// PNG is important here
@@ -63,16 +41,20 @@ async function handlePNG(data) {
 	})
 }
 
+// just for backwards compat, doesn’t use disk cache or memoization layer or concurrency queue
 export async function getColors(source) {
 	let stats = await getImage(source);
 	debug("Image fetched: %o", source);
 
-	let pixels = await handlePNG(stats.png[0].buffer);
+	return getColorsFromBuffer(stats.png[0].buffer);
+}
+
+async function getColorsFromBuffer(buffer) {
+	let pixels = await handlePNG(buffer);
 	let data = [...pixels.data];
 	let [width, height] = pixels.shape;
 
 	let colors = await extractColors({ data, width, height });
-	debug("`extractColors` success: %o", source);
 
 	return colors.map(colorData => {
 		let c = new Color(colorData.hex);
@@ -111,8 +93,36 @@ export async function getColors(source) {
 	}).filter(entry => Boolean(entry));
 }
 
-let fn = memoizeJsonToDisk(getColors);
-let rawFn = memoizeJsonToDisk(getColors, { dryRun: true });
+export function getQueuedFunction(options = {}) {
+	return memoize(async function(source) {
+		debug("Fetching: %o", source);
+
+		// This *needs* to be outside of Cache so it doesn’t have conflicting concurrency queues.
+		let stats = await getImage(source);
+		debug("Image fetched: %o", source);
+
+		let buffer = stats.png[0].buffer;
+
+		// Add to concurrency queue
+		return queue.add(() => Cache(async () => {
+			return getColorsFromBuffer(buffer);
+		}, Object.assign({
+			type: "json",
+			duration: "1d",
+			requestId: `11ty/image-color/${source}`,
+		}, options.cacheOptions)).then(colors => {
+			// Color instances are not JSON-friendly
+			for(let c of colors) {
+				c.colorjs = new Color(c.original);
+			}
+
+			return colors;
+		}));
+	});
+}
+
+let fn = getQueuedFunction();
+let rawFn = getQueuedFunction({ cacheOptions: { dryRun: true } });
 
 export function getImageColors(source) {
 	return fn(source);

@@ -27,12 +27,13 @@
   "dependencies": {
     "@11ty/eleventy-fetch": "^5.0.2",
     "@11ty/eleventy-img": "^6.0.1",
-    "@zachleat/get-pixels": "^1.0.0",
     "colorjs.io": "^0.5.2",
     "debug": "^4.4.0",
     "extract-colors": "^4.1.1",
     "memoize": "^10.1.0",
-    "p-queue": "^8.1.0"
+    "ndarray": "^1.0.19",
+    "p-queue": "^8.1.0",
+    "pngjs": "^7.0.0"
   },
   "devDependencies": {
     "ava": "^6.2.0"

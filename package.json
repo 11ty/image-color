@@ -29,7 +29,7 @@
     "@11ty/eleventy-img": "^6.0.1",
     "colorjs.io": "^0.5.2",
     "debug": "^4.4.0",
-    "extract-colors": "^4.1.1",
+    "extract-colors": "^4.2.0",
     "memoize": "^10.1.0",
     "ndarray": "^1.0.19",
     "p-queue": "^8.1.0",

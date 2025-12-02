@@ -25,14 +25,14 @@
   },
   "bugs": "https://github.com/11ty/image-color/issues",
   "dependencies": {
-    "@11ty/eleventy-fetch": "^5.1.0",
+    "@11ty/eleventy-fetch": "^5.1.1",
     "@11ty/eleventy-img": "^6.0.4",
     "colorjs.io": "^0.5.2",
-    "debug": "^4.4.1",
+    "debug": "^4.4.3",
     "extract-colors": "^4.2.1",
-    "memoize": "^10.1.0",
+    "memoize": "^10.2.0",
     "ndarray": "^1.0.19",
-    "p-queue": "^8.1.0",
+    "p-queue": "^8.1.1",
     "pngjs": "^7.0.0"
   },
   "devDependencies": {

@@ -32,7 +32,7 @@
     "extract-colors": "^4.2.1",
     "memoize": "^10.2.0",
     "ndarray": "^1.0.19",
-    "p-queue": "^8.1.1",
+    "p-queue": "^9.3.1",
     "pngjs": "^7.0.0"
   },
   "devDependencies": {

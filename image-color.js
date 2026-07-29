@@ -1,14 +1,14 @@
 import memoize from "memoize";
 import PQueue from 'p-queue';
 import Color from "colorjs.io";
-import debugUtil from "debug";
+import { createDebug } from "obug";
 import { PNG } from "pngjs";
 import ndarray from "ndarray";
 import { extractColors } from "extract-colors";
 import Cache from "@11ty/eleventy-fetch";
 import Image from "@11ty/eleventy-img";
 
-const debug = debugUtil("Eleventy:ImageColor");
+const debug = createDebug("Eleventy:ImageColor");
 const queue = new PQueue({ concurrency: 10 });
 
 queue.on("active", () => {

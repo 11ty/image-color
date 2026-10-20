@@ -31,7 +31,7 @@
     "extract-colors": "^4.2.1",
     "memoize": "^11.0.0",
     "ndarray": "^1.1.1",
-    "obug": "^2.1.4",
+    "obug": "^3.0.0",
     "p-queue": "^9.3.3",
     "pngjs": "^7.0.0"
   },

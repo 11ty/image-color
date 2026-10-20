@@ -8,7 +8,7 @@
     "node": ">=22"
   },
   "scripts": {
-    "test": "npx ava"
+    "test": "node --test"
   },
   "publishConfig": {
     "access": "public"
@@ -34,8 +34,5 @@
     "obug": "^3.0.0",
     "p-queue": "^9.3.3",
     "pngjs": "^7.0.0"
-  },
-  "devDependencies": {
-    "ava": "^8.0.1"
   }
 }

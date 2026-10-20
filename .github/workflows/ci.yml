@@ -9,7 +9,6 @@ jobs:
     strategy:
       matrix:
         os: ["ubuntu-latest", "macos-latest", "windows-latest"]
-        # This package does support Node 18 and 20 but ava test runner does not
         node: ["22", "24", "26"]
     name: Node.js ${{ matrix.node }} on ${{ matrix.os }}
     steps:

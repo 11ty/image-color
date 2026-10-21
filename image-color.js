@@ -11,7 +11,7 @@ import Image from "@11ty/eleventy-img";
 const debug = createDebug("Eleventy:ImageColor");
 const queue = new PQueue({ concurrency: 10 });
 
-queue.on("active", () => {
+queue.addEventListener("active", () => {
 	debug("Size: %o  Pending: %o", queue.size, queue.pending);
 });
 
